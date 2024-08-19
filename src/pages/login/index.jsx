@@ -1,6 +1,8 @@
 import LockOutlined from "@ant-design/icons/LockOutlined";
 import UserOutlined from "@ant-design/icons/UserOutlined";
 import { Button, Checkbox, Form, Input, Flex, Card, Row, Col } from "antd";
+import Image from 'next/image'
+import Logo from "@/styles/image/next-js-seeklogo.svg";
 
 export default function LoginPage() {
   const onFinish = (values) => {
@@ -8,12 +10,13 @@ export default function LoginPage() {
   };
 
   return (
-    <Row justify="center" align="middle" style={{ height: "100vh" }}>
+    <>
+      <Row justify="center" align="middle" style={{ height: "100vh",display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <Image src={Logo} alt="Logo" width={100} height={100}  style={{ marginBottom: "20px" }} />
       <Col span={10} style={{ display: "flex", justifyContent: "center" }}>
         <Card
-          title="Default size card"
-          extra={<a href="#">More</a>}
-          style={{ width: 400 }}
+          title="Login Web Admin"
+          style={{ width: 400, textAlign : "center" }}
         >
           <Form
             name="login"
@@ -54,11 +57,11 @@ export default function LoginPage() {
               <Button block type="primary" htmlType="submit">
                 Log in
               </Button>
-              or <a href="">Register now!</a>
             </Form.Item>
           </Form>
         </Card>
       </Col>
     </Row>
+    </>
   );
 }

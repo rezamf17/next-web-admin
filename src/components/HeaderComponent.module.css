@@ -1,0 +1,8 @@
+.rightMenu {
+    margin-left: auto;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+  }

@@ -1,0 +1,21 @@
+/* styles/global.css */
+
+/* Layout and Content Styling */
+.layout-content {
+  margin: 24px 16px 0;
+  overflow: initial;
+}
+
+.content-wrapper {
+  padding: 24px;
+  background: #fff;
+  min-height: 360px;
+}
+
+/* Additional Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 0;
+}

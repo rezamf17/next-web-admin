@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Layout } from 'antd';
 import HeaderComponent from '@/components/HeaderComponent';
 import SiderComponent from '@/components/SiderComponent';
+import BreadcrumbComponent from '../../components/BreadcrumbComponent';
+import { DashboardOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
 
@@ -13,7 +15,8 @@ const App = () => {
       <HeaderComponent />
       <Layout>
         <SiderComponent collapsed={collapsed} />
-        <Layout style={{ marginLeft: collapsed ? 80 : 200 }}>
+        <Layout style={{ marginLeft: collapsed ? 80 : 130 }}>
+          <BreadcrumbComponent icon={<DashboardOutlined />} menu="Dashboard" submenu="Layanan Transaksi" />
           <Content className="layout-content">
             <div className="content-wrapper">
               {/* Main content goes here */}

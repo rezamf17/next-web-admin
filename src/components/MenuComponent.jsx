@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import {
-  AppstoreOutlined,
-  ContainerOutlined,
-  DesktopOutlined,
-  MailOutlined,
   PartitionOutlined,
   UserSwitchOutlined,
   DashboardOutlined,
 } from '@ant-design/icons';
-import { Button, Menu } from 'antd';
+import { Menu } from 'antd';
 import { useRouter } from 'next/router';
 const items = [
   {
@@ -90,9 +86,6 @@ const getItemPageUrl = (itemKey) => {
 
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
 
   const router = useRouter();
 
@@ -114,7 +107,7 @@ const App = () => {
       <Menu
         mode="inline"
         theme="dark"
-        inlineCollapsed={collapsed}
+        
         items={items}
         onClick={handleMenuClick}
       />

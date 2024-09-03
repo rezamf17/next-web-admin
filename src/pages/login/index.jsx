@@ -14,7 +14,7 @@ export default function LoginPage() {
   };
 
   return (
-    <>
+    <div>
       <Row justify="center" align="middle" style={{ height: "100vh",display: "flex", flexDirection: "column", alignItems: "center" }}>
       <Image src={Logo} alt="Logo" width={100} height={100}  style={{ marginBottom: "20px" }} />
       <Col span={10} style={{ display: "flex", justifyContent: "center" }}>
@@ -64,6 +64,6 @@ export default function LoginPage() {
         </Card>
       </Col>
     </Row>
-    </>
+    </div>
   );
 }

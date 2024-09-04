@@ -7,6 +7,7 @@ import {
   DashboardOutlined
 } from "@ant-design/icons";
 import DashboardComponent from "@/components/dashboard/DashboardComponent";
+import LayananTransaksiComponent from "@/components/dashboard/LayananTransaksiComponent";
 import { dashboardToday } from "@/lib/utility";
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
             {todayFormatted}
           </Typography.Title>
           <DashboardComponent />
+          <LayananTransaksiComponent />
         </Layout>
       </Layout>
     </Layout>

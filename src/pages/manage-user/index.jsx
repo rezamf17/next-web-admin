@@ -16,10 +16,13 @@ import HeaderComponent from "@/components/HeaderComponent";
 import SiderComponent from "@/components/SiderComponent";
 import BreadcrumbComponent from "../../components/BreadcrumbComponent";
 import { UserSwitchOutlined, PlusOutlined, DeleteOutlined, EditOutlined, SearchOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
 
 const { Content } = Layout;
 
+
 const App = () => {
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
   const columns = [
     {
@@ -42,6 +45,11 @@ const App = () => {
       title: "Username",
       dataIndex: "username",
       key: "username",
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
     },
     {
       title: "Is Active",
@@ -78,6 +86,7 @@ const App = () => {
       no: "1",
       name: "John Brown",
       email: "test@gmail.com",
+      role : "Admin",
       username: "test123",
       isActive: "I",
     },
@@ -86,6 +95,7 @@ const App = () => {
       no: "2",
       name: "Jim Green",
       email: "test@gmail.com",
+      role : "Operator",
       username: "test123",
       isActive: "A",
     },
@@ -93,11 +103,16 @@ const App = () => {
       key: "3",
       no: "3",
       name: "Joe Black",
+      role : "Admin",
       email: "test@gmail.com",
       username: "test123",
       isActive: "I",
     },
   ];
+
+  const addUser = () => {
+    router.push("/manage-user/add");
+  }
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <HeaderComponent />
@@ -127,7 +142,7 @@ const App = () => {
               </Row>
             </Card>
             <div className="content-wrapper">
-              <Button type="primary" icon={<PlusOutlined />}>
+              <Button type="primary" icon={<PlusOutlined />} onClick={addUser}>
                 Add User
               </Button>
               <Table columns={columns} dataSource={data} />;

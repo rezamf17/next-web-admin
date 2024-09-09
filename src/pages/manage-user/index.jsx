@@ -15,15 +15,29 @@ import {
 import HeaderComponent from "@/components/HeaderComponent";
 import SiderComponent from "@/components/SiderComponent";
 import BreadcrumbComponent from "../../components/BreadcrumbComponent";
-import { UserSwitchOutlined, PlusOutlined, DeleteOutlined, EditOutlined, SearchOutlined } from "@ant-design/icons";
+import {
+  UserSwitchOutlined,
+  PlusOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import { useRouter } from "next/router";
 
 const { Content } = Layout;
 
-
 const App = () => {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+
+  const addUser = () => {
+    router.push("/manage-user/add");
+  };
+
+  const editUser = (record) => {
+    console.log(record);
+  };
+
   const columns = [
     {
       title: "No",
@@ -70,7 +84,16 @@ const App = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Button style={{ backgroundColor: '#34c759', borderColor: '#34c759', color : 'white' }} icon={<EditOutlined />} color="green-5">
+          <Button
+            style={{
+              backgroundColor: "#34c759",
+              borderColor: "#34c759",
+              color: "white",
+            }}
+            icon={<EditOutlined />}
+            color="green-5"
+            onClick={() => editUser(record)}
+          >
             Edit User
           </Button>
           <Button type="primary" icon={<DeleteOutlined />} danger>
@@ -86,7 +109,7 @@ const App = () => {
       no: "1",
       name: "John Brown",
       email: "test@gmail.com",
-      role : "Admin",
+      role: "Admin",
       username: "test123",
       isActive: "I",
     },
@@ -95,7 +118,7 @@ const App = () => {
       no: "2",
       name: "Jim Green",
       email: "test@gmail.com",
-      role : "Operator",
+      role: "Operator",
       username: "test123",
       isActive: "A",
     },
@@ -103,16 +126,13 @@ const App = () => {
       key: "3",
       no: "3",
       name: "Joe Black",
-      role : "Admin",
+      role: "Admin",
       email: "test@gmail.com",
       username: "test123",
       isActive: "I",
     },
   ];
 
-  const addUser = () => {
-    router.push("/manage-user/add");
-  }
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <HeaderComponent />
@@ -137,7 +157,9 @@ const App = () => {
                   <Button type="default">Reset</Button>
                 </Col>
                 <Col>
-                  <Button type="primary" icon={<SearchOutlined />}>Search</Button>
+                  <Button type="primary" icon={<SearchOutlined />}>
+                    Search
+                  </Button>
                 </Col>
               </Row>
             </Card>

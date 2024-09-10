@@ -23,19 +23,27 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
+import { addItem } from '@/redux/store.js';
 
 const { Content } = Layout;
 
 const App = () => {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+  const [update, setUpdate] = useState([]);
+  const session = useSelector((state) => state.data);
+  const dispatch = useDispatch();
 
   const addUser = () => {
     router.push("/manage-user/add");
   };
 
   const editUser = (record) => {
-    console.log(record);
+      dispatch(addItem({ name: 'editUser', record }));
+      console.log('record',record);
+      
+      router.push("/manage-user/edit");
   };
 
   const columns = [

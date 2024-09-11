@@ -11,7 +11,7 @@ const { Content } = Layout;
 
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const session = useSelector((state) => state.data['editUser'] || []);
+  const session = useSelector((state) => state.user);
     console.log('edit seession',session);
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -25,7 +25,7 @@ const App = () => {
             submenu="Edit User"
           />
           <Typography.Title level={2} style={{ margin: 0 }}>
-            Add User
+            Edit User
           </Typography.Title>
           <Content className="layout-content">
             <div className="content-wrapper">

@@ -24,15 +24,13 @@ import {
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
-import { addItem } from '@/redux/store.js';
+import { updateUser } from '@/redux/actions.js';
 
 const { Content } = Layout;
 
 const App = () => {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
-  const [update, setUpdate] = useState([]);
-  const session = useSelector((state) => state.data);
   const dispatch = useDispatch();
 
   const addUser = () => {
@@ -40,9 +38,7 @@ const App = () => {
   };
 
   const editUser = (record) => {
-      dispatch(addItem({ name: 'editUser', record }));
-      console.log('record',record);
-      
+      dispatch(updateUser(record));
       router.push("/manage-user/edit");
   };
 

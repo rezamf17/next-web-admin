@@ -1,15 +1,19 @@
-// reducers.js
+import { UPDATE_USER } from './actions.js';
+
 const initialState = {
-    // state awal aplikasi
-  };
-  
-  const reducer = (state = initialState, action) => {
-    switch (action.type) {
-      case 'ACTION_TYPE':
-        return { ...state, /* perubahan state */ };
-      default:
-        return state;
-    }
-  };
-  
-  export default reducer;
+  user: null,
+};
+
+const userReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case UPDATE_USER:
+      return {
+        ...state,
+        user: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export default userReducer;

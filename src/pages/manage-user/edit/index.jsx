@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Layout, Typography } from "antd";
 import HeaderComponent from "@/components/HeaderComponent";
 import SiderComponent from "@/components/SiderComponent";
-import AddUser from "@/components/manage-user/AddUser";
+import EditUser from "@/components/manage-user/EditUser";
 import BreadcrumbComponent from "../../../components/BreadcrumbComponent";
 import { UserSwitchOutlined } from "@ant-design/icons";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const { Content } = Layout;
 
@@ -29,7 +29,7 @@ const App = () => {
           </Typography.Title>
           <Content className="layout-content">
             <div className="content-wrapper">
-							<AddUser />
+							<EditUser data={session} />
             </div>
           </Content>
         </Layout>

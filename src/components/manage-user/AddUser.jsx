@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Form, Input, Row, Col, Select } from "antd";
 import { useRouter } from "next/router";
 
@@ -6,7 +5,7 @@ const { Option } = Select;
 
 const AddUser = () => {
   const router = useRouter();
-
+  
   const handleBack = () => {
     router.push("/manage-user");
   };
@@ -35,7 +34,7 @@ const AddUser = () => {
           },
         ]}
       >
-        <Input />
+        <Input type="text"/>
       </Form.Item>
 
       <Form.Item

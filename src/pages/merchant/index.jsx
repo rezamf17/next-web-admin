@@ -22,11 +22,18 @@ import {
   EditOutlined,
   SearchOutlined
 } from '@ant-design/icons';
+import { useRouter } from 'next/router';
 
 const { Content } = Layout;
 
 const App = () => {
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+
+
+  const addMerchant = () => {
+    router.push("/merchant/add");
+  }
 
   const columns = [
     {
@@ -150,10 +157,10 @@ const App = () => {
               </Row>
             </Card>
             <div className="content-wrapper">
-              <Button type="primary" icon={<PlusOutlined />}>
+              <Button type="primary" icon={<PlusOutlined />} onClick={addMerchant}>
                 Add Merchant
               </Button>
-              <Table columns={columns} dataSource={data} />;
+              <Table columns={columns} dataSource={data} />
             </div>
           </Content>
         </Layout>

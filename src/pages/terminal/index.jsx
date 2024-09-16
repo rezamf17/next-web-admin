@@ -153,7 +153,7 @@ const App = () => {
               <Button type="primary" icon={<PlusOutlined />}>
                 Add Terminal
               </Button>
-              <Table columns={columns} dataSource={data} />;
+              <Table columns={columns} dataSource={data} />
             </div>
           </Content>
         </Layout>

@@ -1,57 +1,42 @@
-import { Modal, Button } from 'antd';
+import { Modal } from 'antd';
 
-class App extends React.Component {
-  state = {
-    ModalText: 'Content of the modal',
-    visible: false,
-    confirmLoading: false,
-  };
+function ModalDelete(props) {
+  const { visible, confirmLoading, modalText,
+    setVisible, setConfirmLoading, setModalText, titleModal } = props;
+    console.log('modal props',props)
 
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  handleOk = () => {
-    this.setState({
-      ModalText: 'The modal will be closed after two seconds',
-      confirmLoading: true,
-    });
+  const handleOk = () => {
+    setModalText('The modal will be closed after two seconds');
+    setConfirmLoading(true);
     setTimeout(() => {
-      this.setState({
-        visible: false,
-        confirmLoading: false,
-      });
+      setVisible(false);
+      setConfirmLoading(false);
     }, 2000);
   };
 
-  handleCancel = () => {
+  const handleCancel = () => {
     console.log('Clicked cancel button');
-    this.setState({
-      visible: false,
-    });
+    setVisible(false);
   };
 
-  render() {
-    const { visible, confirmLoading, ModalText } = this.state;
-    return (
-      <div>
-        <Button type="primary" onClick={this.showModal}>
-          Open Modal with async logic
-        </Button>
-        <Modal
-          title="Title"
-          visible={visible}
-          onOk={this.handleOk}
-          confirmLoading={confirmLoading}
-          onCancel={this.handleCancel}
-        >
-          <p>{ModalText}</p>
-        </Modal>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Modal
+        title={titleModal}
+        visible={visible}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+      >
+        <p>{modalText}</p>
+        <br />
+        <p>Name : {props.dataDelete.name}</p>
+        <p>Username : {props.dataDelete.username}</p>
+        <p>Email : {props.dataDelete.email}</p>
+        <p>Role : {props.dataDelete.role}</p>
+      </Modal>
+    </div>
+  );
 }
 
-ReactDOM.render(<App />, mountNode);
+export default ModalDelete

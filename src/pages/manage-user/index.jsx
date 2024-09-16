@@ -14,6 +14,7 @@ import {
 } from "antd";
 import HeaderComponent from "@/components/HeaderComponent";
 import SiderComponent from "@/components/SiderComponent";
+import ModalDelete from "@/components/manage-user/ModalDelete";
 import BreadcrumbComponent from "../../components/BreadcrumbComponent";
 import {
   UserSwitchOutlined,
@@ -31,6 +32,9 @@ const { Content } = Layout;
 const App = () => {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [dataDeleteUser, setdataDeleteUser] = useState({});
   const dispatch = useDispatch();
 
   const addUser = () => {
@@ -38,8 +42,13 @@ const App = () => {
   };
 
   const editUser = (record) => {
-      dispatch(updateUser(record));
-      router.push("/manage-user/edit");
+    dispatch(updateUser(record));
+    router.push("/manage-user/edit");
+  };
+
+  const deleteUser = (record) => {
+    setdataDeleteUser(record);
+    setVisible(true);
   };
 
   const columns = [
@@ -100,7 +109,7 @@ const App = () => {
           >
             Edit User
           </Button>
-          <Button type="primary" icon={<DeleteOutlined />} danger>
+          <Button type="primary" icon={<DeleteOutlined />} danger onClick={() => deleteUser(record)}>
             Delete User
           </Button>
         </Space>
@@ -176,6 +185,15 @@ const App = () => {
           </Content>
         </Layout>
       </Layout>
+      <ModalDelete visible={visible}
+        confirmLoading={confirmLoading}
+        titleModal="Delete User"
+        modalText="Are you sure you want to delete this user?"
+        setVisible={setVisible}
+        setConfirmLoading={setConfirmLoading}
+        setModalText="Are you sure you want to delete this user?"
+        dataDelete={dataDeleteUser}
+      />
     </Layout>
   );
 };

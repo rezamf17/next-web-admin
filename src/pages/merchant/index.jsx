@@ -23,16 +23,24 @@ import {
   SearchOutlined
 } from '@ant-design/icons';
 import { useRouter } from 'next/router';
+import { useDispatch } from "react-redux";
+import { saveData } from '@/redux/actions.js';
 
 const { Content } = Layout;
 
 const App = () => {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+  const dispatch = useDispatch();
 
 
   const addMerchant = () => {
     router.push("/merchant/add");
+  }
+
+  const editMerchant = (record) => {
+    dispatch(saveData(record));
+    router.push("/merchant/edit");
   }
 
   const columns = [
@@ -42,10 +50,20 @@ const App = () => {
       key: "no",
     },
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Nama Merchant",
+      dataIndex: "merchant_name",
+      key: "merchant_name",
       render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Alamat",
+      dataIndex: "address",
+      key: "address",
+    },
+    {
+      title: "Nomor HP",
+      dataIndex: "phone_number",
+      key: "phone_number",
     },
     {
       title: "Email",
@@ -53,22 +71,32 @@ const App = () => {
       key: "email",
     },
     {
-      title: "Username",
-      dataIndex: "username",
-      key: "username",
+      title: "Jenis Usaha",
+      dataIndex: "business_type",
+      key: "business_type",
     },
     {
-      title: "Role",
-      dataIndex: "role",
-      key: "role",
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
     },
     {
-      title: "Is Active",
-      key: "isActive",
-      dataIndex: "isActive",
-      render: (_, { isActive }) => (
+      title: "Nomor Rekening",
+      dataIndex: "account_number",
+      key: "account_number",
+    },
+    {
+      title: "Nama Bank",
+      dataIndex: "bank_name",
+      key: "bank_name",
+    },
+    {
+      title: "Status",
+      key: "status",
+      dataIndex: "status",
+      render: (_, { status }) => (
         <>
-          {isActive === "A" ? (
+          {status === "A" ? (
             <Tag color="volcano">INACTIVE</Tag>
           ) : (
             <Tag color="green">ACTIVE</Tag>
@@ -89,7 +117,7 @@ const App = () => {
             }}
             icon={<EditOutlined />}
             color="green-5"
-            onClick={() => editUser(record)}
+            onClick={() => editMerchant(record)}
           >
             Edit Merchant
           </Button>
@@ -104,29 +132,26 @@ const App = () => {
     {
       key: "1",
       no: "1",
-      name: "John Brown",
+      merchant_name: "Toko ABC",
+      address: "Jl. Sudirman No. 123, Jakarta Selatan",
+      phone_number: "021-12345678",
+      business_type: "Ritel",
+      account_number: "1234567890",
       email: "test@gmail.com",
-      role: "Admin",
-      username: "test123",
-      isActive: "I",
+      bank_name: "BCA",
+      status: "I",
     },
-    {
+        {
       key: "2",
       no: "2",
-      name: "Jim Green",
+      merchant_name: "Restoran XYZ",
+      address: "Jl. Gatot Subroto No. 456, Jakarta Pusat",
+      phone_number: "021-12345678",
+      business_type: "Jasa",
+      account_number: "9876543210",
       email: "test@gmail.com",
-      role: "Operator",
-      username: "test123",
-      isActive: "A",
-    },
-    {
-      key: "3",
-      no: "3",
-      name: "Joe Black",
-      role: "Admin",
-      email: "test@gmail.com",
-      username: "test123",
-      isActive: "I",
+      bank_name: "Mandiri",
+      status: "A",
     },
   ];
 
@@ -143,7 +168,7 @@ const App = () => {
           <Content className="layout-content">
             <Card>
               <Form.Item label="Search">
-                <Input placeholder="Search data user" />
+                <Input placeholder="Search data merchant" />
               </Form.Item>
               <Row justify="space-between">
                 <Col>

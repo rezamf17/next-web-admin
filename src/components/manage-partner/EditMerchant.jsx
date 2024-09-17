@@ -1,11 +1,29 @@
 import { Button, Form, Input, Row, Col, Select } from "antd";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const { Option } = Select;
 
 const EditMerchant = ({ data }) => {
 	const router = useRouter();
-	console.log(data);
+	const [form] = Form.useForm();
+	// console.log('props',data);
+
+	const dataMerchant = data || {};
+	useEffect(() => {
+    if (dataMerchant) {
+      form.setFieldsValue({
+				merchant_name: dataMerchant.merchant_name,
+				address: dataMerchant.address,
+				phone_number: dataMerchant.phone_number,
+				business_type: dataMerchant.business_type,
+				account_number: dataMerchant.account_number,
+				email: dataMerchant.email,
+				bank_name: dataMerchant.bank_name,
+        status: dataMerchant.status === "A" ? "active" : "inactive", // Sesuaikan dengan status aktif/inaktif
+      });
+    }
+  }, [dataMerchant, form]);
 	
 	const handleBack = () => {
 		router.push("/merchant");
@@ -22,6 +40,7 @@ const EditMerchant = ({ data }) => {
 				flex: 4,
 			}}
 			colon={false}
+			initialValues={dataMerchant}
 			style={{
 				maxWidth: 600,
 			}}
@@ -99,8 +118,8 @@ const EditMerchant = ({ data }) => {
 				]}
 			>
 				<Select placeholder="Pilih Status" allowClear>
-					<Option value="male">Active</Option>
-					<Option value="female">InActive</Option>
+					<Option value="A">Active</Option>
+					<Option value="I">InActive</Option>
 				</Select>
 			</Form.Item>
 

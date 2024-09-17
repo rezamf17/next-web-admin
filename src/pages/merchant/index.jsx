@@ -76,11 +76,6 @@ const App = () => {
       key: "business_type",
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-    },
-    {
       title: "Nomor Rekening",
       dataIndex: "account_number",
       key: "account_number",

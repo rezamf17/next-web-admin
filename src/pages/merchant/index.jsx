@@ -15,12 +15,15 @@ import {
 import HeaderComponent from '@/components/HeaderComponent';
 import SiderComponent from '@/components/SiderComponent';
 import BreadcrumbComponent from '../../components/BreadcrumbComponent';
+import ModalDeleteMerchant from "@/components/manage-partner/ModalDeleteMerchant";
 import {
   PartitionOutlined,
   PlusOutlined,
   DeleteOutlined,
   EditOutlined,
-  SearchOutlined
+  SearchOutlined,
+  CheckOutlined,
+  CloseOutlined
 } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { useDispatch } from "react-redux";
@@ -31,6 +34,11 @@ const { Content } = Layout;
 const App = () => {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [titleModal, setTitleModal] = useState('');
+  const [modalText, setModalText] = useState('');
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [dataDeleteUser, setdataDeleteUser] = useState({});
   const dispatch = useDispatch();
 
 
@@ -41,6 +49,19 @@ const App = () => {
   const editMerchant = (record) => {
     dispatch(saveData(record));
     router.push("/merchant/edit");
+  }
+
+  const deleteMerchant = (record) => {
+    // Implementasi logika penghapusan data merchant di sini
+    setdataDeleteUser(record);
+    setVisible(true);
+    if (record.status == "A") {
+      setTitleModal("Inactive Merchant")
+      setModalText("Are you sure you want to inactive this merchant?")
+    }else{
+      setTitleModal("Active Merchant")
+      setModalText("Are you sure you want to active this merchant?")
+    }
   }
 
   const columns = [
@@ -116,9 +137,15 @@ const App = () => {
           >
             Edit Merchant
           </Button>
-          <Button type="primary" icon={<DeleteOutlined />} danger onClick={() => deleteUser(record)}>
-            Delete Merchant
-          </Button>
+          {record.status == "I" ? (
+            <Button type="primary" icon={<CloseOutlined />} danger onClick={() => deleteMerchant(record)}>
+              Inactive Merchant
+            </Button>
+          ) : (
+            <Button type="primary" icon={<CheckOutlined />} onClick={() => deleteMerchant(record)}>
+              Active Merchant
+            </Button>
+          )}
         </Space>
       ),
     },
@@ -185,6 +212,15 @@ const App = () => {
           </Content>
         </Layout>
       </Layout>
+      <ModalDeleteMerchant visible={visible}
+        confirmLoading={confirmLoading}
+        titleModal={titleModal}
+        modalText={modalText}
+        setVisible={setVisible}
+        setConfirmLoading={setConfirmLoading}
+        setModalText={modalText}
+        dataDelete={dataDeleteUser}
+      />
     </Layout>
   );
 };

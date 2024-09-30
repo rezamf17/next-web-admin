@@ -12,6 +12,7 @@ import {
   Row,
   Col,
 } from 'antd';
+import { useRouter } from 'next/router';
 import HeaderComponent from '@/components/HeaderComponent';
 import SiderComponent from '@/components/SiderComponent';
 import BreadcrumbComponent from '../../components/BreadcrumbComponent';
@@ -26,7 +27,12 @@ import {
 const { Content } = Layout;
 
 const App = () => {
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+
+  const addMitra = () => {
+    router.push('/mitra/add');
+  }
 
   const columns = [
     {
@@ -154,7 +160,7 @@ const App = () => {
               </Row>
             </Card>
             <div className="content-wrapper">
-              <Button type="primary" icon={<PlusOutlined />}>
+              <Button type="primary" icon={<PlusOutlined />} onClick={addMitra}>
                 Add Mitra
               </Button>
               <Table columns={columns} dataSource={data} />

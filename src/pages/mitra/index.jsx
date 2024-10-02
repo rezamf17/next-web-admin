@@ -16,6 +16,8 @@ import { useRouter } from 'next/router';
 import HeaderComponent from '@/components/HeaderComponent';
 import SiderComponent from '@/components/SiderComponent';
 import BreadcrumbComponent from '../../components/BreadcrumbComponent';
+import { useDispatch } from "react-redux";
+import { saveData } from '@/redux/actions.js';
 import {
   PartitionOutlined,
   PlusOutlined,
@@ -29,9 +31,17 @@ const { Content } = Layout;
 const App = () => {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+  const dispatch = useDispatch();
 
   const addMitra = () => {
     router.push('/mitra/add');
+  }
+
+  const editMitra = (record) => {
+    console.log('edit mitra',record);
+    
+    dispatch(saveData(record));
+    router.push("/mitra/edit");
   }
 
   const columns = [
@@ -67,12 +77,12 @@ const App = () => {
       key: "nomor_telepon",
     },
     {
-      title: "Is Active",
-      key: "isActive",
-      dataIndex: "isActive",
-      render: (_, { isActive }) => (
+      title: "Status",
+      key: "status",
+      dataIndex: "status",
+      render: (_, { status }) => (
         <>
-          {isActive === "A" ? (
+          {status === "I" ? (
             <Tag color="volcano">INACTIVE</Tag>
           ) : (
             <Tag color="green">ACTIVE</Tag>
@@ -93,7 +103,7 @@ const App = () => {
             }}
             icon={<EditOutlined />}
             color="green-5"
-            onClick={() => editUser(record)}
+            onClick={() => editMitra(record)}
           >
             Edit Mitra
           </Button>
@@ -116,7 +126,7 @@ const App = () => {
       email: "test123@gmail.com",
       website: "gopay.co.id",
       created : "2022-11-01",
-      isActive: "I",
+      status: "I",
     },
     {
       key: "2",
@@ -129,7 +139,7 @@ const App = () => {
       email: "test123@gmail.com",
       website: "bca.co.id",
       created : "2022-12-15",
-      isActive: "I",
+      status: "I",
     },
   ];
 

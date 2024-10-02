@@ -13,7 +13,7 @@ const EditMerchant = ({ data }) => {
 	useEffect(() => {
     if (dataMerchant) {
       form.setFieldsValue({
-				merchant_name: dataMerchant.merchant_name,
+				name: dataMerchant.name,
 				address: dataMerchant.address,
 				phone_number: dataMerchant.phone_number,
 				business_type: dataMerchant.business_type,
@@ -47,7 +47,7 @@ const EditMerchant = ({ data }) => {
 		>
 			<Form.Item
 				label="Nama Merchant"
-				name="merchant_name"
+				name="name"
 				rules={[
 					{
 						required: true,

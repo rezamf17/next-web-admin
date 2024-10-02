@@ -30,7 +30,7 @@ function ModalDeleteMerchant(props) {
       >
         <p>{modalText}</p>
         <br />
-        <p>Merchant Name : {props.dataDelete.merchant_name}</p>
+        <p>{props.name} : {props.dataDelete.name}</p>
       </Modal>
     </div>
   );

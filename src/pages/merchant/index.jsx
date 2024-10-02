@@ -72,8 +72,8 @@ const App = () => {
     },
     {
       title: "Nama Merchant",
-      dataIndex: "merchant_name",
-      key: "merchant_name",
+      dataIndex: "name",
+      key: "name",
       render: (text) => <a>{text}</a>,
     },
     {
@@ -154,7 +154,7 @@ const App = () => {
     {
       key: "1",
       no: "1",
-      merchant_name: "Toko ABC",
+      name: "Toko ABC",
       address: "Jl. Sudirman No. 123, Jakarta Selatan",
       phone_number: "021-12345678",
       business_type: "Ritel",
@@ -166,7 +166,7 @@ const App = () => {
         {
       key: "2",
       no: "2",
-      merchant_name: "Restoran XYZ",
+      name: "Restoran XYZ",
       address: "Jl. Gatot Subroto No. 456, Jakarta Pusat",
       phone_number: "021-12345678",
       business_type: "Jasa",
@@ -220,6 +220,7 @@ const App = () => {
         setConfirmLoading={setConfirmLoading}
         setModalText={modalText}
         dataDelete={dataDeleteUser}
+        name="Nama Merchant"
       />
     </Layout>
   );

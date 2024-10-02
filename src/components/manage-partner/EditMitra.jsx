@@ -16,7 +16,7 @@ const EditMitra = ({ data }) => {
     useEffect(() => {
         if (dataMitra) {
           form.setFieldsValue({
-                    merchant_name: dataMitra.merchant_name,
+                    name: dataMitra.name,
                     address: dataMitra.address,
                     phone_number: dataMitra.phone_number,
                     business_type: dataMitra.business_type,
@@ -47,7 +47,7 @@ const EditMitra = ({ data }) => {
 		>
 			<Form.Item
 				label="Nama Mitra"
-				name="nama_mitra"
+				name="name"
 				rules={[
 					{
 						required: true,

@@ -16,12 +16,13 @@ import { useRouter } from 'next/router';
 import HeaderComponent from '@/components/HeaderComponent';
 import SiderComponent from '@/components/SiderComponent';
 import BreadcrumbComponent from '../../components/BreadcrumbComponent';
+import ModalDeleteMerchant from "@/components/manage-partner/ModalDeleteMerchant";
 import { useDispatch } from "react-redux";
 import { saveData } from '@/redux/actions.js';
 import {
   PartitionOutlined,
   PlusOutlined,
-  DeleteOutlined,
+  CloseOutlined,
   EditOutlined,
   SearchOutlined
 } from '@ant-design/icons';
@@ -31,6 +32,11 @@ const { Content } = Layout;
 const App = () => {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [titleModal, setTitleModal] = useState('');
+  const [modalText, setModalText] = useState('');
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [dataDelete, setdataDelete] = useState({});
   const dispatch = useDispatch();
 
   const addMitra = () => {
@@ -44,6 +50,19 @@ const App = () => {
     router.push("/mitra/edit");
   }
 
+  const deleteMitra = (record) => {
+    // Implementasi logika penghapusan data merchant di sini
+    setdataDelete(record);
+    setVisible(true);
+    if (record.status == "A") {
+      setTitleModal("Inactive Mitra")
+      setModalText("Are you sure you want to inactive this mitra?")
+    }else{
+      setTitleModal("Active Mitra")
+      setModalText("Are you sure you want to active this mitra?")
+    }
+  }
+
   const columns = [
     {
       title: "No",
@@ -52,8 +71,8 @@ const App = () => {
     },
     {
       title: "Nama Mitra",
-      dataIndex: "nama_mitra",
-      key: "nama_mitra",
+      dataIndex: "name",
+      key: "name",
       render: (text) => <a>{text}</a>,
     },
     {
@@ -107,9 +126,15 @@ const App = () => {
           >
             Edit Mitra
           </Button>
-          <Button type="primary" icon={<DeleteOutlined />} danger onClick={() => deleteUser(record)}>
-            Delete Mitra
-          </Button>
+          {record.status == "I" ? (
+            <Button type="primary" icon={<CloseOutlined />} danger onClick={() => deleteMitra(record)}>
+              Inactive Mitra
+            </Button>
+          ) : (
+            <Button type="primary" icon={<CheckOutlined />} onClick={() => deleteMitra(record)}>
+              Active Mitra
+            </Button>
+          )}
         </Space>
       ),
     },
@@ -119,7 +144,7 @@ const App = () => {
       key: "1",
       no: "1",
       mitra_id: "PG001",
-      nama_mitra: "GoPay",
+      name: "GoPay",
       jenis_mitra: "Payment Gateway",
       kontak_person: "Andi",
       nomor_telepon: "081234567890",
@@ -132,7 +157,7 @@ const App = () => {
       key: "2",
       no: "2",
       mitra_id: "B001",
-      nama_mitra: "Bank BCA",
+      name: "Bank BCA",
       jenis_mitra: "Bank",
       kontak_person: "Budi",
       nomor_telepon: "021-99999999",
@@ -178,6 +203,16 @@ const App = () => {
           </Content>
         </Layout>
       </Layout>
+      <ModalDeleteMerchant visible={visible}
+        confirmLoading={confirmLoading}
+        titleModal={titleModal}
+        modalText={modalText}
+        setVisible={setVisible}
+        setConfirmLoading={setConfirmLoading}
+        setModalText={modalText}
+        dataDelete={dataDelete}
+        name="Nama Mitra"
+      />
     </Layout>
   );
 };

@@ -15,6 +15,7 @@ import {
 import HeaderComponent from '@/components/HeaderComponent';
 import SiderComponent from '@/components/SiderComponent';
 import BreadcrumbComponent from '../../components/BreadcrumbComponent';
+import { useRouter } from 'next/router';
 import {
   PartitionOutlined,
   PlusOutlined,
@@ -26,6 +27,7 @@ import {
 const { Content } = Layout;
 
 const App = () => {
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
 
   const columns = [
@@ -98,6 +100,11 @@ const App = () => {
       ),
     },
   ];
+
+  const addTerminal = () => {
+    router.push('/terminal/add');
+  }
+
   const data = [
     {
       key: "1",
@@ -158,7 +165,7 @@ const App = () => {
               </Row>
             </Card>
             <div className="content-wrapper">
-              <Button type="primary" icon={<PlusOutlined />}>
+              <Button type="primary" icon={<PlusOutlined />} onClick={() => addTerminal()}>
                 Add Terminal
               </Button>
               <Table columns={columns} dataSource={data} />

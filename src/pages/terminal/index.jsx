@@ -35,33 +35,38 @@ const App = () => {
       key: "no",
     },
     {
-      title: "Name",
+      title: "Nama Merchant",
       dataIndex: "name",
       key: "name",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: "Nama Mitra",
+      dataIndex: "nama_mitra",
+      key: "nama_mitra",
     },
     {
-      title: "Username",
-      dataIndex: "username",
-      key: "username",
+      title: "Nomor Seri",
+      dataIndex: "nomor_seri",
+      key: "nomor_seri",
     },
     {
-      title: "Role",
-      dataIndex: "role",
-      key: "role",
+      title: "Jenis Terminal",
+      dataIndex: "jenis_terminal",
+      key: "jenis_terminal",
     },
     {
-      title: "Is Active",
-      key: "isActive",
-      dataIndex: "isActive",
-      render: (_, { isActive }) => (
+      title: "Lokasi",
+      dataIndex: "lokasi",
+      key: "lokasi",
+    },
+    {
+      title: "Status",
+      key: "status",
+      dataIndex: "status",
+      render: (_, { status }) => (
         <>
-          {isActive === "A" ? (
+          {status === "I" ? (
             <Tag color="volcano">INACTIVE</Tag>
           ) : (
             <Tag color="green">ACTIVE</Tag>
@@ -97,29 +102,32 @@ const App = () => {
     {
       key: "1",
       no: "1",
-      name: "John Brown",
-      email: "test@gmail.com",
-      role: "Admin",
-      username: "test123",
-      isActive: "I",
+      name: "Toko ABC",
+      nama_mitra: "Bank BCA",
+      nomor_seri: "EDC12345678",
+      jenis_terminal: "EDC",
+      lokasi: "Kasir Utama",
+      status: "I",
     },
     {
       key: "2",
       no: "2",
-      name: "Jim Green",
-      email: "test@gmail.com",
-      role: "Operator",
-      username: "test123",
-      isActive: "A",
+      name: "Resto ABC",
+      nama_mitra: "Bank BCA",
+      nomor_seri: "EDC12345678",
+      jenis_terminal: "EDC",
+      lokasi: "Kasir Utama",
+      status: "A",
     },
     {
       key: "3",
       no: "3",
-      name: "Joe Black",
-      role: "Admin",
-      email: "test@gmail.com",
-      username: "test123",
-      isActive: "I",
+      name: "Agus Cell",
+      nama_mitra: "OVO",
+      nomor_seri: "MOBILE987654",
+      jenis_terminal: "EDC",
+      lokasi: "Kasir Cabang",
+      status: "I",
     },
   ];
 

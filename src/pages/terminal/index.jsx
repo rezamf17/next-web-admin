@@ -23,12 +23,15 @@ import {
   EditOutlined,
   SearchOutlined
 } from '@ant-design/icons';
+import { useDispatch } from "react-redux";
+import { saveData } from '@/redux/actions.js';
 
 const { Content } = Layout;
 
 const App = () => {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+  const dispatch = useDispatch();
 
   const columns = [
     {
@@ -89,7 +92,7 @@ const App = () => {
             }}
             icon={<EditOutlined />}
             color="green-5"
-            onClick={() => editUser(record)}
+            onClick={() => editTerminal(record)}
           >
             Edit Terminal
           </Button>
@@ -103,6 +106,11 @@ const App = () => {
 
   const addTerminal = () => {
     router.push('/terminal/add');
+  }
+
+  const editTerminal = (record) => {
+    dispatch(saveData(record));
+    router.push('/terminal/edit');
   }
 
   const data = [

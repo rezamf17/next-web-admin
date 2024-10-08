@@ -15,13 +15,15 @@ import {
 import HeaderComponent from '@/components/HeaderComponent';
 import SiderComponent from '@/components/SiderComponent';
 import BreadcrumbComponent from '../../components/BreadcrumbComponent';
+import ModalDeleteMerchant from "@/components/manage-partner/ModalDeleteMerchant";
 import { useRouter } from 'next/router';
 import {
   PartitionOutlined,
   PlusOutlined,
-  DeleteOutlined,
+  CloseOutlined,
   EditOutlined,
-  SearchOutlined
+  SearchOutlined,
+  CheckOutlined
 } from '@ant-design/icons';
 import { useDispatch } from "react-redux";
 import { saveData } from '@/redux/actions.js';
@@ -31,6 +33,11 @@ const { Content } = Layout;
 const App = () => {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [titleModal, setTitleModal] = useState('');
+  const [modalText, setModalText] = useState('');
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [dataDelete, setdataDelete] = useState({});
   const dispatch = useDispatch();
 
   const columns = [
@@ -96,9 +103,15 @@ const App = () => {
           >
             Edit Terminal
           </Button>
-          <Button type="primary" icon={<DeleteOutlined />} danger onClick={() => deleteUser(record)}>
-            Delete Terminal
-          </Button>
+          {record.status == "I" ? (
+            <Button type="primary" icon={<CloseOutlined />} danger onClick={() => deleteTerminal(record)}>
+              Inactive Mitra
+            </Button>
+          ) : (
+            <Button type="primary" icon={<CheckOutlined />} onClick={() => deleteTerminal(record)}>
+              Active Mitra
+            </Button>
+          )}
         </Space>
       ),
     },
@@ -111,6 +124,19 @@ const App = () => {
   const editTerminal = (record) => {
     dispatch(saveData(record));
     router.push('/terminal/edit');
+  }
+
+  const deleteTerminal = (record) => {
+    // Implementasi logika penghapusan data merchant di sini
+    setdataDelete(record);
+    setVisible(true);
+    if (record.status == "A") {
+      setTitleModal("Inactive Terminal")
+      setModalText("Are you sure you want to inactive this terminal?")
+    }else{
+      setTitleModal("Active Terminal")
+      setModalText("Are you sure you want to active this terminal?")
+    }
   }
 
   const data = [
@@ -140,7 +166,7 @@ const App = () => {
       name: "Agus Cell",
       nama_mitra: "OVO",
       nomor_seri: "MOBILE987654",
-      jenis_terminal: "EDC",
+      jenis_terminal: "Mobile",
       lokasi: "Kasir Cabang",
       status: "I",
     },
@@ -181,6 +207,16 @@ const App = () => {
           </Content>
         </Layout>
       </Layout>
+      <ModalDeleteMerchant visible={visible}
+        confirmLoading={confirmLoading}
+        titleModal={titleModal}
+        modalText={modalText}
+        setVisible={setVisible}
+        setConfirmLoading={setConfirmLoading}
+        setModalText={modalText}
+        dataDelete={dataDelete}
+        name="Nama Merchant"
+      />
     </Layout>
   );
 };

@@ -96,7 +96,11 @@ const EditTerminal = ({ data }) => {
 					},
 				]}
 			>
-				<Input />
+				<Select placeholder="Pilih Jenis Terminal" allowClear>
+					<Option value="mb">Mobile</Option>
+					<Option value="edc">EDC</Option>
+					<Option value="pos">POS</Option>
+				</Select>
 			</Form.Item>
 
 			<Form.Item

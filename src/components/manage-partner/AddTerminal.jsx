@@ -49,7 +49,7 @@ const AddTerminal = () => {
 					},
 				]}
 			>
-            <Select placeholder="Pilih Terminal" allowClear>
+            	<Select placeholder="Pilih Terminal" allowClear>
 					<Option value="male">Active</Option>
 					<Option value="female">InActive</Option>
 				</Select>
@@ -76,7 +76,11 @@ const AddTerminal = () => {
 					},
 				]}
 			>
-				<Input />
+				<Select placeholder="Pilih Jenis Terminal" allowClear>
+					<Option value="mb">Mobile</Option>
+					<Option value="edc">EDC</Option>
+					<Option value="pos">POS</Option>
+				</Select>
 			</Form.Item>
 
 			<Form.Item

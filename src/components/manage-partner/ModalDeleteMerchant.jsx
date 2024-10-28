@@ -3,7 +3,7 @@ import { Modal } from 'antd';
 function ModalDeleteMerchant(props) {
   const { visible, confirmLoading, modalText,
     setVisible, setConfirmLoading, setModalText, titleModal } = props;
-    console.log('modal props',props)
+    // console.log('modal props',props)
 
   const handleOk = () => {
     setModalText('The modal will be closed after two seconds');
@@ -15,7 +15,7 @@ function ModalDeleteMerchant(props) {
   };
 
   const handleCancel = () => {
-    console.log('Clicked cancel button');
+    // console.log('Clicked cancel button');
     setVisible(false);
   };
 

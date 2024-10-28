@@ -73,6 +73,12 @@ const App = () => {
     console.log(date, dateString);
   };
 
+  const handleDetail = (record) => {
+    // console.log('detail', record);
+    dispatch(saveData(record));
+    router.push("/report-transaction/detail");
+  }
+
   const columns = [
     {
       title: "No",
@@ -133,7 +139,7 @@ const App = () => {
             }}
             icon={<FileOutlined />}
             color="green-5"
-            onClick={() => editMerchant(record)}
+            onClick={() => handleDetail(record)}
           >
             Detail
           </Button>
@@ -153,6 +159,7 @@ const App = () => {
       stan: "000154",
       rrn: "000000000425",
       card_number: "8888303713520011",
+      description: "INFO SALDO ON US TABUNGAN"
     },
     {
       key: "2",
@@ -165,6 +172,7 @@ const App = () => {
       stan: "000154",
       rrn: "000000000425",
       card_number: "8888303713520011",
+      description: "INFO SALDO ON US TABUNGAN"
     },
     {
       key: "3",
@@ -177,6 +185,7 @@ const App = () => {
       stan: "000154",
       rrn: "000000000425",
       card_number: "8888303713520011",
+      description: "INFO SALDO ON US TABUNGAN"
     },
     {
       key: "4",
@@ -189,6 +198,7 @@ const App = () => {
       stan: "000154",
       rrn: "000000000425",
       card_number: "8888303713520011",
+      description: "INFO SALDO ON US TABUNGAN"
     },
     {
       key: "5",
@@ -201,6 +211,7 @@ const App = () => {
       stan: "000154",
       rrn: "000000000425",
       card_number: "8888303713520011",
+      description: "INFO SALDO ON US TABUNGAN"
     },
   ];
 

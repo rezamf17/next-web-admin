@@ -3,6 +3,7 @@ import {
   PartitionOutlined,
   UserSwitchOutlined,
   DashboardOutlined,
+  FileOutlined
 } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { useRouter } from 'next/router';
@@ -60,6 +61,23 @@ const items = [
         key: '13',
         label: 'Mitra',
         url : '/mitra',
+      },
+    ],
+  },
+  {
+    key: 'sub4',
+    label: 'Report and Summary',
+    icon: <FileOutlined />,
+    children: [
+      {
+        key: '14',
+        label: 'Report Transaction',
+        url : '/report-transaction',
+      },
+      {
+        key: '15',
+        label: 'Summary',
+        url : '/summary',
       },
     ],
   },

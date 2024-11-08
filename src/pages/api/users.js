@@ -1,6 +1,6 @@
 // pages/api/users.js
 
-import { createUser } from "./models/m_user";
+import { createUser, isExistEmail } from "./models/m_user";
 import moment from 'moment'
 
 export default async function handler(req, res) {
@@ -14,14 +14,20 @@ export default async function handler(req, res) {
 
     try {
       // Panggil fungsi createUser dari model User
+      await isExistEmail(email);
       const created = moment().format('YYYY-MM-DD HH:mm:ss')
-     await createUser({ name, username, email, password, status, created, createdBy });
-      res.status(201).json({
-        code : "00",
-        message : "Success created user"
-      });
+      await createUser({ name, username, email, password, status, created, createdBy });
+        res.status(201).json({
+          code : "00",
+          message : "Success created user"
+        });
     } catch (error) {
-      res.status(500).json({ error: "Error creating user" });
+      console.error("Error in handler:", error)
+      if (error.message === "Email already exists") {
+        res.status(409).json({ error: "Email already exists" });
+      } else {
+        res.status(500).json({ error: "Error creating user" });
+      }
     }
   } else {
     res.setHeader("Allow", ["POST"]);

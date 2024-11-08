@@ -25,3 +25,33 @@ export async function createUser({ name, username, email, password, status, crea
     throw new Error("Database error: unable to create user");
   }
 }
+
+export async function isExistEmail(email) {
+  try {
+    const query = `
+    SELECT * FROM t_users WHERE email = $1
+  `;
+  const result = await pool.query(query, [email]);
+  // console.log('result email', result);
+  
+  if (result.rows.length > 0) {
+    throw new Error("Email already exists");
+  }
+  return false;
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw error;
+  }
+}
+
+export function isExistUsername(username) {
+  try {
+    const query = `
+    SELECT * FROM t_users WHERE username = ${username}
+  `;
+  return query;
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw new Error("Database error: unable to username user");
+  }
+}

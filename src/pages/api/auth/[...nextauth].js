@@ -2,7 +2,7 @@
 
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { verifyUser } from "../lib/utility"; // Fungsi verifikasi (dijelaskan di bawah)
+import { verifyUser } from "@/lib/utility"; // Fungsi verifikasi (dijelaskan di bawah)
 
 export default NextAuth({
   providers: [

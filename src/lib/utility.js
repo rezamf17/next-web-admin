@@ -1,6 +1,6 @@
 import moment from 'moment';
 import 'moment/locale/id'; // Import locale bahasa Indonesia
-import bcrypt from "bcrypt"; // Pastikan bcryptjs sudah diinstall dengan `npm install bcryptjs`
+import bcrypt from "bcryptjs"; // Pastikan bcryptjs sudah diinstall dengan `npm install bcryptjs`
 import db from "./db"; // Contoh koneksi database (disesuaikan dengan sistem database)
 
 moment.locale('id'); // Set locale ke bahasa Indonesia

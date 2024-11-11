@@ -44,14 +44,20 @@ export async function isExistEmail(email) {
   }
 }
 
-export function isExistUsername(username) {
+export async function isExistUsername(username) {
   try {
     const query = `
-    SELECT * FROM t_users WHERE username = ${username}
+    SELECT * FROM t_users WHERE username = $1
   `;
-  return query;
+  const result = await pool.query(query, [username]);
+  // console.log('result email', result);
+  
+  if (result.rows.length > 0) {
+    throw new Error("Username already exists");
+  }
+  return false;
   } catch (error) {
     console.error("Error creating user:", error);
-    throw new Error("Database error: unable to username user");
+    throw error;
   }
 }

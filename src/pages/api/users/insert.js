@@ -1,7 +1,7 @@
 // pages/api/users.js
 
-import { createUser, isExistEmail, isExistUsername } from "./models/m_user";
-import { verifyToken } from './middleware/auth';
+import { createUser, isExistEmail, isExistUsername } from "../models/m_user";
+import { verifyToken } from '../middleware/auth';
 import moment from 'moment'
 
 export default async function handler(req, res) {

@@ -26,6 +26,25 @@ export async function createUser({ name, username, email, password, status, crea
   }
 }
 
+export async function getUser(search) {
+  try {
+    const query = `
+      SELECT * 
+      FROM t_users 
+      WHERE 
+        (name ILIKE $1 OR username ILIKE $1 OR email ILIKE $1)
+    `;
+    
+    const searchParam = `%${search || ''}%`; // Tambahkan wildcard untuk pencarian parsial
+    
+    const result = await pool.query(query, [searchParam]);
+    return result.rows
+  } catch (error) {
+    console.error("Error getting user:", error);
+    throw new Error("Database error: unable to get user");
+  }
+}
+
 export async function isExistEmail(email) {
   try {
     const query = `

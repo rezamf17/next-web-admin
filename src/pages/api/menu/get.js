@@ -4,13 +4,17 @@ import { getMenu } from "../models/m_menu";
 import { verifyToken } from '../middleware/auth';
 
 const transformData = (data) => {
-    const result = { role_name: "Operator", menus: [] };
+    const result = { role_name: "", menus: [] };
     
     const menuMap = new Map();
-  
+    
     data.forEach((row) => {
-      const { id_menu, menu_name, id_submenu, submenu_name, menu_link } = row;
-  
+      const { role_name, id_menu, menu_name, id_submenu, submenu_name, menu_link } = row;
+    
+      if (!result.role_name) {
+        result.role_name = role_name;
+      }
+
       if (!menuMap.has(id_menu)) {
         menuMap.set(id_menu, { id_menu, menu_name, sub_menu: [] });
       }
@@ -24,13 +28,11 @@ const transformData = (data) => {
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
-    // const data = await getMenu(2);
     
     verifyToken(req, res, async () => {
       try {
         const { id_role } = req.query
         
-        let response = []
         const data = await getMenu(id_role);
           res.status(200).json({
             code : "00",

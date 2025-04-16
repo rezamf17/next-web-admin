@@ -84,3 +84,48 @@ export async function updateRoleName({ role_id, role_name }) {
     throw new Error("Database error: unable to update role name");
   }
 }
+
+export async function getExistingRoleMenus(role_id) {
+  const query = `
+      SELECT id_menu, id_submenu 
+      FROM role_menu 
+      WHERE id_role = $1
+  `;
+  const result = await pool.query(query, [role_id]);
+  return result.rows;
+}
+
+export async function deleteRoleMenus(role_id, deleteList) {
+  if (deleteList.length === 0) return;
+
+  const conditions = deleteList.map((_, index) => `(id_menu = $${index * 2 + 2} AND id_submenu = $${index * 2 + 3})`).join(" OR ");
+  const values = [role_id, ...deleteList.flatMap(item => item.split("-"))];
+
+  const query = `
+      DELETE FROM role_menu 
+      WHERE id_role = $1 AND (${conditions})
+  `;
+
+  await pool.query(query, values);
+}
+
+export async function insertRoleMenuBatch(roleMenus) {
+  if (roleMenus.length === 0) {
+      throw new Error("No data to insert");
+  }
+
+  const values = roleMenus.flatMap(({ id_role, id_menu, id_submenu }) => [id_role, id_menu, id_submenu]);
+
+  const placeholders = roleMenus.map((_, index) => {
+      const baseIndex = index * 3 + 1;
+      return `($${baseIndex}, $${baseIndex + 1}, $${baseIndex + 2})`;
+  }).join(", ");
+
+  const query = `
+      INSERT INTO role_menu (id_role, id_menu, id_submenu)
+      VALUES ${placeholders}
+      RETURNING *;
+  `;
+
+  await pool.query(query, values);
+}

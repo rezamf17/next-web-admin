@@ -14,6 +14,21 @@ export async function getRole() {
   }
 }
 
+export async function getRoleById(id) {
+  try {
+    const query = `
+        SELECT *
+        FROM m_role
+        WHERE id = $1
+      `;
+    const result = await pool.query(query, [id]);
+    return result.rows[0]
+  } catch (error) {
+    console.error("Error getting user:", error);
+    throw new Error("Database error: unable to get user");
+  }
+}
+
 export async function createRoleName({ role_name }) {
   try {
     const query = `

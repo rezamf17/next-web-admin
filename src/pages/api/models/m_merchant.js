@@ -31,3 +31,23 @@ export async function getMerchant(search = "") {
     throw new Error("Database error: unable to get merchant");
   }
 }
+
+export async function createMerchant({ merchant_name, address, phone, email, acc_number, bank_name, status, created, createdBy, id_business_type }) {
+  try {
+
+    // Query untuk menambahkan user baru
+    const query = `
+      INSERT INTO t_merchant (merchant_name, address, phone, email, acc_number, bank_name, status, created, createdBy, id_business_type)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      RETURNING *
+    `;
+    const values = [merchant_name, address, phone, email, acc_number, bank_name, status, created, createdBy, id_business_type];
+
+    // Eksekusi query dan dapatkan hasilnya
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  } catch (error) {
+    console.error("Error creating merchant:", error);
+    throw new Error("Database error: unable to create merchant");
+  }
+}

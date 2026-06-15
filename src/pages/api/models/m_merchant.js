@@ -48,6 +48,50 @@ export async function createMerchant({ merchant_name, address, phone, email, acc
     return result.rows[0];
   } catch (error) {
     console.error("Error creating merchant:", error);
-    throw new Error("Database error: unable to create merchant");
+    throw new Error("Database error: " + error.message);
+  }
+}
+
+export async function updateMerchant({ id, merchant_name, address, phone, email, acc_number, bank_name, status, id_business_type }) {
+  try {
+    const query = `
+      UPDATE t_merchant 
+      SET merchant_name = $1, address = $2, phone = $3, email = $4, acc_number = $5, bank_name = $6, status = $7, id_business_type = $8
+      WHERE id = $9
+      RETURNING *
+    `;
+    const values = [merchant_name, address, phone, email, acc_number, bank_name, status, id_business_type, id];
+
+    const result = await pool.query(query, values);
+
+    if (result.rows.length === 0) {
+      throw new Error("Merchant not found");
+    }
+
+    return result.rows[0];
+  } catch (error) {
+    console.error("Error updating merchant:", error);
+    throw new Error("Database error: " + error.message);
+  }
+}
+
+export async function softDeleteMerchant(id) {
+  try {
+    const query = `
+      UPDATE t_merchant 
+      SET status = false
+      WHERE id = $1
+      RETURNING *
+    `;
+    const result = await pool.query(query, [id]);
+
+    if (result.rows.length === 0) {
+      throw new Error("Merchant not found");
+    }
+
+    return result.rows[0];
+  } catch (error) {
+    console.error("Error deleting merchant:", error);
+    throw new Error("Database error: " + error.message);
   }
 }

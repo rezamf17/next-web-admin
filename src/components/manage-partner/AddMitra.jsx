@@ -3,17 +3,23 @@ import { useRouter } from "next/router";
 
 const { Option } = Select;
 
-const AddMerchant = () => {
+const AddMitra = () => {
 	const router = useRouter();
 
 	const handleBack = () => {
 		router.push("/mitra");
 	};
+
+	const onFinish = (values) => {
+		console.log("Form values:", values);
+		// TODO: call API insert mitra
+	};
+
 	return (
 		<Form
 			name="wrap"
 			labelCol={{
-				flex: "110px",
+				flex: "150px",
 			}}
 			labelAlign="left"
 			labelWrap
@@ -24,6 +30,7 @@ const AddMerchant = () => {
 			style={{
 				maxWidth: 600,
 			}}
+			onFinish={onFinish}
 		>
 			<Form.Item
 				label="Nama Mitra"
@@ -31,6 +38,7 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Nama Mitra wajib diisi",
 					},
 				]}
 			>
@@ -43,15 +51,29 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Jenis Mitra wajib dipilih",
 					},
 				]}
 			>
 				<Select placeholder="Pilih Jenis Mitra" allowClear>
-					<Option value="male">Marketplace</Option>
-					<Option value="female">Processor</Option>
-					<Option value="female">Bank</Option>
-					<Option value="female">Payment Gateway</Option>
+					<Option value="marketplace">Marketplace</Option>
+					<Option value="processor">Processor</Option>
+					<Option value="bank">Bank</Option>
+					<Option value="payment_gateway">Payment Gateway</Option>
 				</Select>
+			</Form.Item>
+
+			<Form.Item
+				label="Alamat"
+				name="alamat"
+				rules={[
+					{
+						required: true,
+						message: "Alamat wajib diisi",
+					},
+				]}
+			>
+				<Input.TextArea rows={3} />
 			</Form.Item>
 
 			<Form.Item
@@ -60,6 +82,7 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Kontak Person wajib diisi",
 					},
 				]}
 			>
@@ -72,6 +95,7 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Nomor Telepon wajib diisi",
 					},
 				]}
 			>
@@ -84,6 +108,11 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Email wajib diisi",
+					},
+					{
+						type: "email",
+						message: "Format email tidak valid",
 					},
 				]}
 			>
@@ -93,13 +122,8 @@ const AddMerchant = () => {
 			<Form.Item
 				label="Website"
 				name="website"
-				rules={[
-					{
-						required: true,
-					},
-				]}
 			>
-				<Input />
+				<Input placeholder="https://..." />
 			</Form.Item>
 
 			<Form.Item
@@ -108,12 +132,13 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Status wajib dipilih",
 					},
 				]}
 			>
 				<Select placeholder="Pilih Status" allowClear>
-					<Option value="male">Active</Option>
-					<Option value="female">InActive</Option>
+					<Option value="active">Active</Option>
+					<Option value="inactive">InActive</Option>
 				</Select>
 			</Form.Item>
 
@@ -132,4 +157,4 @@ const AddMerchant = () => {
 		</Form>
 	);
 };
-export default AddMerchant;
+export default AddMitra;

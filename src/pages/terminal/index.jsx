@@ -63,6 +63,11 @@ const App = () => {
       key: "nomor_seri",
     },
     {
+      title: "TID",
+      dataIndex: "tid",
+      key: "tid",
+    },
+    {
       title: "Jenis Terminal",
       dataIndex: "jenis_terminal",
       key: "jenis_terminal",
@@ -105,11 +110,11 @@ const App = () => {
           </Button>
           {record.status == "I" ? (
             <Button type="primary" icon={<CloseOutlined />} danger onClick={() => deleteTerminal(record)}>
-              Inactive Mitra
+              Inactive Terminal
             </Button>
           ) : (
             <Button type="primary" icon={<CheckOutlined />} onClick={() => deleteTerminal(record)}>
-              Active Mitra
+              Active Terminal
             </Button>
           )}
         </Space>
@@ -146,6 +151,7 @@ const App = () => {
       name: "Toko ABC",
       nama_mitra: "Bank BCA",
       nomor_seri: "EDC12345678",
+      tid: "TID00001",
       jenis_terminal: "EDC",
       lokasi: "Kasir Utama",
       status: "I",
@@ -156,6 +162,7 @@ const App = () => {
       name: "Resto ABC",
       nama_mitra: "Bank BCA",
       nomor_seri: "EDC12345678",
+      tid: "TID00002",
       jenis_terminal: "EDC",
       lokasi: "Kasir Utama",
       status: "A",
@@ -166,6 +173,7 @@ const App = () => {
       name: "Agus Cell",
       nama_mitra: "OVO",
       nomor_seri: "MOBILE987654",
+      tid: "TID00003",
       jenis_terminal: "Mobile",
       lokasi: "Kasir Cabang",
       status: "I",
@@ -213,9 +221,9 @@ const App = () => {
         modalText={modalText}
         setVisible={setVisible}
         setConfirmLoading={setConfirmLoading}
-        setModalText={modalText}
+        setModalText={setModalText}
         dataDelete={dataDelete}
-        name="Nama Merchant"
+        name="Nama Terminal"
       />
     </Layout>
   );

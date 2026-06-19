@@ -1,19 +1,34 @@
 import { Button, Form, Input, Row, Col, Select } from "antd";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const { Option } = Select;
 
 const AddTerminal = () => {
 	const router = useRouter();
+	const [merchants, setMerchants] = useState([]);
+
+	useEffect(() => {
+		// TODO: fetch merchants from API
+		// fetch("/api/partner/merchant/get")
+		//   .then(res => res.json())
+		//   .then(data => setMerchants(data));
+	}, []);
 
 	const handleBack = () => {
 		router.push("/terminal");
 	};
+
+	const onFinish = (values) => {
+		console.log("Form values:", values);
+		// TODO: call API insert terminal
+	};
+
 	return (
 		<Form
 			name="wrap"
 			labelCol={{
-				flex: "110px",
+				flex: "150px",
 			}}
 			labelAlign="left"
 			labelWrap
@@ -24,19 +39,24 @@ const AddTerminal = () => {
 			style={{
 				maxWidth: 600,
 			}}
+			onFinish={onFinish}
 		>
 			<Form.Item
-				label="Nama Merchant"
-				name="merchant_name"
+				label="Merchant"
+				name="merchant_id"
 				rules={[
 					{
 						required: true,
+						message: "Merchant wajib dipilih",
 					},
 				]}
 			>
-				<Select placeholder="Pilih Merchant" allowClear>
-					<Option value="male">Active</Option>
-					<Option value="female">InActive</Option>
+				<Select placeholder="Pilih Merchant" allowClear showSearch optionFilterProp="children">
+					{merchants.map((m) => (
+						<Option key={m.id} value={m.id}>
+							{m.merchant_name}
+						</Option>
+					))}
 				</Select>
 			</Form.Item>
 
@@ -46,13 +66,24 @@ const AddTerminal = () => {
 				rules={[
 					{
 						required: true,
+						message: "Nama Terminal wajib diisi",
 					},
 				]}
 			>
-            	<Select placeholder="Pilih Terminal" allowClear>
-					<Option value="male">Active</Option>
-					<Option value="female">InActive</Option>
-				</Select>
+				<Input />
+			</Form.Item>
+
+			<Form.Item
+				label="TID"
+				name="tid"
+				rules={[
+					{
+						required: true,
+						message: "Terminal ID (TID) wajib diisi",
+					},
+				]}
+			>
+				<Input placeholder="Terminal ID dari bank/mitra" />
 			</Form.Item>
 
 			<Form.Item
@@ -61,6 +92,7 @@ const AddTerminal = () => {
 				rules={[
 					{
 						required: true,
+						message: "Nomor Seri wajib diisi",
 					},
 				]}
 			>
@@ -73,11 +105,12 @@ const AddTerminal = () => {
 				rules={[
 					{
 						required: true,
+						message: "Jenis Terminal wajib dipilih",
 					},
 				]}
 			>
 				<Select placeholder="Pilih Jenis Terminal" allowClear>
-					<Option value="mb">Mobile</Option>
+					<Option value="mobile">Mobile</Option>
 					<Option value="edc">EDC</Option>
 					<Option value="pos">POS</Option>
 				</Select>
@@ -89,6 +122,7 @@ const AddTerminal = () => {
 				rules={[
 					{
 						required: true,
+						message: "Lokasi wajib diisi",
 					},
 				]}
 			>
@@ -101,12 +135,13 @@ const AddTerminal = () => {
 				rules={[
 					{
 						required: true,
+						message: "Status wajib dipilih",
 					},
 				]}
 			>
 				<Select placeholder="Pilih Status" allowClear>
-					<Option value="male">Active</Option>
-					<Option value="female">InActive</Option>
+					<Option value="active">Active</Option>
+					<Option value="inactive">InActive</Option>
 				</Select>
 			</Form.Item>
 

@@ -24,7 +24,8 @@ import {
   PlusOutlined,
   CloseOutlined,
   EditOutlined,
-  SearchOutlined
+  SearchOutlined,
+  CheckOutlined
 } from '@ant-design/icons';
 
 const { Content } = Layout;
@@ -209,7 +210,7 @@ const App = () => {
         modalText={modalText}
         setVisible={setVisible}
         setConfirmLoading={setConfirmLoading}
-        setModalText={modalText}
+        setModalText={setModalText}
         dataDelete={dataDelete}
         name="Nama Mitra"
       />

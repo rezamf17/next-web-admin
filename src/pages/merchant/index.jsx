@@ -107,12 +107,17 @@ const App = () => {
       key: "bank_name",
     },
     {
+      title: "MID",
+      dataIndex: "mid",
+      key: "mid",
+    },
+    {
       title: "Status",
       key: "status",
       dataIndex: "status",
       render: (_, { status }) => (
         <>
-          {status === "A" ? (
+          {status === "I" ? (
             <Tag color="volcano">INACTIVE</Tag>
           ) : (
             <Tag color="green">ACTIVE</Tag>
@@ -161,6 +166,7 @@ const App = () => {
       account_number: "1234567890",
       email: "test@gmail.com",
       bank_name: "BCA",
+      mid: "MID000001",
       status: "I",
     },
         {
@@ -173,6 +179,7 @@ const App = () => {
       account_number: "9876543210",
       email: "test@gmail.com",
       bank_name: "Mandiri",
+      mid: "MID000002",
       status: "A",
     },
   ];
@@ -218,7 +225,7 @@ const App = () => {
         modalText={modalText}
         setVisible={setVisible}
         setConfirmLoading={setConfirmLoading}
-        setModalText={modalText}
+        setModalText={setModalText}
         dataDelete={dataDeleteUser}
         name="Nama Merchant"
       />

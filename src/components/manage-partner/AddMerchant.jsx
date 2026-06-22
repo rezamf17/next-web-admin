@@ -9,11 +9,17 @@ const AddMerchant = () => {
 	const handleBack = () => {
 		router.push("/merchant");
 	};
+
+	const onFinish = (values) => {
+		console.log("Form values:", values);
+		// TODO: call API insert merchant
+	};
+
 	return (
 		<Form
 			name="wrap"
 			labelCol={{
-				flex: "110px",
+				flex: "150px",
 			}}
 			labelAlign="left"
 			labelWrap
@@ -24,6 +30,7 @@ const AddMerchant = () => {
 			style={{
 				maxWidth: 600,
 			}}
+			onFinish={onFinish}
 		>
 			<Form.Item
 				label="Nama Merchant"
@@ -31,6 +38,7 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Nama Merchant wajib diisi",
 					},
 				]}
 			>
@@ -43,10 +51,11 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Alamat wajib diisi",
 					},
 				]}
 			>
-				<Input />
+				<Input.TextArea rows={3} />
 			</Form.Item>
 
 			<Form.Item
@@ -55,6 +64,7 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Nomor HP wajib diisi",
 					},
 				]}
 			>
@@ -67,6 +77,11 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Email wajib diisi",
+					},
+					{
+						type: "email",
+						message: "Format email tidak valid",
 					},
 				]}
 			>
@@ -79,13 +94,30 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Jenis Usaha wajib dipilih",
 					},
 				]}
 			>
 				<Select placeholder="Pilih Jenis Usaha" allowClear>
-					<Option value="male">Admin</Option>
-					<Option value="female">Operator</Option>
+					<Option value="retail">Retail</Option>
+					<Option value="fnb">Food & Beverage</Option>
+					<Option value="fashion">Fashion</Option>
+					<Option value="jasa">Jasa</Option>
+					<Option value="lainnya">Lainnya</Option>
 				</Select>
+			</Form.Item>
+
+			<Form.Item
+				label="MID"
+				name="mid"
+				rules={[
+					{
+						required: true,
+						message: "Merchant ID (MID) wajib diisi",
+					},
+				]}
+			>
+				<Input placeholder="Merchant ID dari bank/mitra" />
 			</Form.Item>
 
 			<Form.Item
@@ -94,12 +126,13 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Status wajib dipilih",
 					},
 				]}
 			>
 				<Select placeholder="Pilih Status" allowClear>
-					<Option value="male">Active</Option>
-					<Option value="female">InActive</Option>
+					<Option value="active">Active</Option>
+					<Option value="inactive">InActive</Option>
 				</Select>
 			</Form.Item>
 
@@ -109,6 +142,7 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Nomor Rekening wajib diisi",
 					},
 				]}
 			>
@@ -121,6 +155,7 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Nama Bank wajib diisi",
 					},
 				]}
 			>

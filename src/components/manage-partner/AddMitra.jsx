@@ -1,17 +1,51 @@
-import { Button, Form, Input, Row, Col, Select } from "antd";
+import { Button, Form, Input, Row, Col, Select, message } from "antd";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 const { Option } = Select;
 
-const AddMerchant = () => {
+const AddMitra = () => {
 	const router = useRouter();
+	const [form] = Form.useForm();
+	const [loading, setLoading] = useState(false);
 
 	const handleBack = () => {
 		router.push("/mitra");
 	};
+
+	const onFinish = async (values) => {
+		setLoading(true);
+		try {
+			const token = localStorage.getItem("token");
+			const response = await fetch("/api/partner/mitra/insert", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+				body: JSON.stringify(values),
+			});
+
+			const result = await response.json();
+
+			if (response.ok && result.code === "00") {
+				message.success("Mitra berhasil ditambahkan");
+				router.push("/mitra");
+			} else {
+				message.error(result.error || "Gagal menambahkan mitra");
+			}
+		} catch (error) {
+			console.error("Error:", error);
+			message.error("Terjadi kesalahan saat menambahkan mitra");
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	return (
 		<Form
-			name="wrap"
+			form={form}
+			name="addMitra"
 			labelCol={{
 				flex: "110px",
 			}}
@@ -24,6 +58,7 @@ const AddMerchant = () => {
 			style={{
 				maxWidth: 600,
 			}}
+			onFinish={onFinish}
 		>
 			<Form.Item
 				label="Nama Mitra"
@@ -31,6 +66,7 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Nama Mitra wajib diisi",
 					},
 				]}
 			>
@@ -43,15 +79,20 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Jenis Mitra wajib dipilih",
 					},
 				]}
 			>
 				<Select placeholder="Pilih Jenis Mitra" allowClear>
-					<Option value="male">Marketplace</Option>
-					<Option value="female">Processor</Option>
-					<Option value="female">Bank</Option>
-					<Option value="female">Payment Gateway</Option>
+					<Option value="Marketplace">Marketplace</Option>
+					<Option value="Processor">Processor</Option>
+					<Option value="Bank">Bank</Option>
+					<Option value="Payment Gateway">Payment Gateway</Option>
 				</Select>
+			</Form.Item>
+
+			<Form.Item label="Alamat" name="alamat">
+				<Input.TextArea rows={3} />
 			</Form.Item>
 
 			<Form.Item
@@ -60,6 +101,7 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Kontak Person wajib diisi",
 					},
 				]}
 			>
@@ -72,6 +114,7 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Nomor Telepon wajib diisi",
 					},
 				]}
 			>
@@ -84,21 +127,18 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Email wajib diisi",
+					},
+					{
+						type: "email",
+						message: "Format email tidak valid",
 					},
 				]}
 			>
 				<Input />
 			</Form.Item>
 
-			<Form.Item
-				label="Website"
-				name="website"
-				rules={[
-					{
-						required: true,
-					},
-				]}
-			>
+			<Form.Item label="Website" name="website">
 				<Input />
 			</Form.Item>
 
@@ -108,12 +148,13 @@ const AddMerchant = () => {
 				rules={[
 					{
 						required: true,
+						message: "Status wajib dipilih",
 					},
 				]}
 			>
 				<Select placeholder="Pilih Status" allowClear>
-					<Option value="male">Active</Option>
-					<Option value="female">InActive</Option>
+					<Option value="A">Active</Option>
+					<Option value="I">Inactive</Option>
 				</Select>
 			</Form.Item>
 
@@ -123,7 +164,7 @@ const AddMerchant = () => {
 						<Button onClick={handleBack}>Kembali</Button>
 					</Col>
 					<Col>
-						<Button type="primary" htmlType="submit">
+						<Button type="primary" htmlType="submit" loading={loading}>
 							Submit
 						</Button>
 					</Col>
@@ -132,4 +173,5 @@ const AddMerchant = () => {
 		</Form>
 	);
 };
-export default AddMerchant;
+
+export default AddMitra;

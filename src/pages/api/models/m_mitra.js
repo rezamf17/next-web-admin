@@ -1,4 +1,4 @@
-const pool = require("../../../lib/db");
+import pool from "../../../lib/db";
 
 async function getMitra(search = "") {
   try {

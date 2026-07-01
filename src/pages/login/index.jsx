@@ -1,11 +1,13 @@
 import LockOutlined from "@ant-design/icons/LockOutlined";
 import UserOutlined from "@ant-design/icons/UserOutlined";
 import { Button, Form, Input, Flex, Card, Row, Col, message } from "antd";
+import { Button, Form, Input, Flex, Card, Row, Col, message } from "antd";
 import Image from 'next/image'
 import Logo from "@/styles/image/next-js-seeklogo.svg";
 import Link from "next/link";
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import api from '@/lib/api';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -14,28 +16,17 @@ export default function LoginPage() {
   const handleLogin = async (values) => {
     setLoading(true);
     try {
-      const response = await fetch('/api/auth/signin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: values.username,
-          password: values.password,
-        }),
+      const { data } = await api.post('/auth/signin', {
+        username: values.username,
+        password: values.password,
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        message.error(data.error || 'Login failed');
-        return;
-      }
-
-      // Simpan token ke localStorage
       localStorage.setItem('token', data.token);
       message.success('Login berhasil');
       router.push('/dashboard');
     } catch (error) {
-      message.error('Terjadi kesalahan, coba lagi');
+      const msg = error.response?.data?.error || 'Terjadi kesalahan, coba lagi';
+      message.error(msg);
     } finally {
       setLoading(false);
     }

@@ -29,10 +29,11 @@ export async function createUser({ name, username, email, password, status, crea
 export async function getUser(search) {
   try {
     const query = `
-      SELECT * 
-      FROM t_users 
+      SELECT u.*, r.role_name 
+      FROM t_users u
+      LEFT JOIN m_role r ON u.id_role = r.id
       WHERE 
-        (name ILIKE $1 OR username ILIKE $1 OR email ILIKE $1)
+        (u.name ILIKE $1 OR u.username ILIKE $1 OR u.email ILIKE $1)
     `;
     
     const searchParam = `%${search || ''}%`; // Tambahkan wildcard untuk pencarian parsial

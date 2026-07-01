@@ -2,7 +2,6 @@
 
 import { createUser, getUser, isExistEmail, isExistUsername } from "../models/m_user";
 import { verifyToken } from '../middleware/auth';
-import moment from 'moment'
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
@@ -19,6 +18,8 @@ export default async function handler(req, res) {
                 name: result.name,
                 username: result.username,
                 email: result.email,
+                role: result.role_name || null,
+                id_role: result.id_role,
                 status: result.status,
                 createdby: result.createdby
             })

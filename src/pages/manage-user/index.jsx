@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Layout,
   Typography,
@@ -11,6 +11,9 @@ import {
   Button,
   Row,
   Col,
+  Grid,
+  message,
+  Spin,
 } from "antd";
 import HeaderComponent from "@/components/HeaderComponent";
 import SiderComponent from "@/components/SiderComponent";
@@ -24,18 +27,70 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateUser } from '@/redux/actions.js';
+import api from '@/lib/api';
 
 const { Content } = Layout;
+const { useBreakpoint } = Grid;
 
 const App = () => {
   const router = useRouter();
+  const screens = useBreakpoint();
   const [collapsed, setCollapsed] = useState(false);
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [dataDeleteUser, setdataDeleteUser] = useState({});
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   const dispatch = useDispatch();
+
+  // Auto-collapse sidebar on small screens
+  useEffect(() => {
+    if (screens.xs || (!screens.md && !screens.lg)) {
+      setCollapsed(true);
+    } else {
+      setCollapsed(false);
+    }
+  }, [screens]);
+
+  // Fetch users on mount
+  useEffect(() => {
+    fetchUsers("");
+  }, []);
+
+  const fetchUsers = async (search) => {
+    setLoading(true);
+    try {
+      const response = await api.get(`/users/get?search=${search}`);
+      const users = response.data?.data || response.data || [];
+      const formatted = users.map((user, index) => ({
+        key: user.id || index + 1,
+        no: index + 1,
+        name: user.name,
+        email: user.email,
+        username: user.username,
+        role: user.role,
+        isActive: user.isActive,
+        ...user,
+      }));
+      setData(formatted);
+    } catch (error) {
+      message.error("Failed to fetch users");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearch = () => {
+    fetchUsers(searchValue);
+  };
+
+  const handleReset = () => {
+    setSearchValue("");
+    fetchUsers("");
+  };
 
   const addUser = () => {
     router.push("/manage-user/add");
@@ -116,76 +171,124 @@ const App = () => {
       ),
     },
   ];
-  const data = [
-    {
-      key: "1",
-      no: "1",
-      name: "John Brown",
-      email: "test@gmail.com",
-      role: "Admin",
-      username: "test123",
-      isActive: "I",
-    },
-    {
-      key: "2",
-      no: "2",
-      name: "Jim Green",
-      email: "test@gmail.com",
-      role: "Operator",
-      username: "test123",
-      isActive: "A",
-    },
-    {
-      key: "3",
-      no: "3",
-      name: "Joe Black",
-      role: "Admin",
-      email: "test@gmail.com",
-      username: "test123",
-      isActive: "I",
-    },
-  ];
+
+  // Responsive columns - hide some on mobile
+  const responsiveColumns = screens.xs
+    ? columns.filter((col) => ["name", "role", "action"].includes(col.key))
+    : screens.sm && !screens.md
+    ? columns.filter((col) => col.key !== "no" && col.key !== "username")
+    : columns;
+
+  // Responsive action buttons for small screens
+  const actionColumn = responsiveColumns.find((col) => col.key === "action");
+  if (actionColumn && screens.xs) {
+    actionColumn.render = (_, record) => (
+      <Space direction="vertical" size="small" style={{ width: "100%" }}>
+        <Button
+          size="small"
+          style={{
+            backgroundColor: "#34c759",
+            borderColor: "#34c759",
+            color: "white",
+          }}
+          icon={<EditOutlined />}
+          onClick={() => editUser(record)}
+        >
+          Edit
+        </Button>
+        <Button
+          size="small"
+          type="primary"
+          icon={<DeleteOutlined />}
+          danger
+          onClick={() => deleteUser(record)}
+        >
+          Delete
+        </Button>
+      </Space>
+    );
+  }
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <HeaderComponent />
       <Layout>
         <SiderComponent collapsed={collapsed} />
-        <Layout style={{ marginLeft: collapsed ? 80 : 130 }}>
+        <Layout
+          style={{
+            marginLeft: collapsed ? 80 : (screens.md ? 260 : 80),
+            transition: "margin-left 0.2s",
+          }}
+        >
           <BreadcrumbComponent
             icon={<UserSwitchOutlined />}
             menu="Maintenance User"
             submenu="Manage User"
           />
-          <Typography.Title level={2} style={{ margin: 0 }}>
-            Manage User
-          </Typography.Title>
+          <div style={{ padding: screens.xs ? "0 8px" : "0 16px" }}>
+            <Typography.Title
+              level={screens.xs ? 4 : 2}
+              style={{ margin: 0 }}
+            >
+              Manage User
+            </Typography.Title>
+          </div>
           <Content className="layout-content">
-            <Card>
-              <Form.Item label="Search">
-                <Input placeholder="Search data user" />
-              </Form.Item>
-              <Row justify="space-between">
-                <Col>
-                  <Button type="default">Reset</Button>
+            <Card styles={{ body: { padding: screens.xs ? 12 : 24 } }}>
+              <Row gutter={[16, 16]}>
+                <Col xs={24} sm={24} md={16} lg={18}>
+                  <Form.Item label="Search" style={{ marginBottom: 0 }}>
+                    <Input
+                      placeholder="Search data user"
+                      value={searchValue}
+                      onChange={(e) => setSearchValue(e.target.value)}
+                      onPressEnter={handleSearch}
+                    />
+                  </Form.Item>
                 </Col>
-                <Col>
-                  <Button type="primary" icon={<SearchOutlined />}>
+                <Col xs={12} sm={12} md={4} lg={3}>
+                  <Button type="default" block onClick={handleReset}>
+                    Reset
+                  </Button>
+                </Col>
+                <Col xs={12} sm={12} md={4} lg={3}>
+                  <Button
+                    type="primary"
+                    icon={<SearchOutlined />}
+                    block
+                    onClick={handleSearch}
+                    loading={loading}
+                  >
                     Search
                   </Button>
                 </Col>
               </Row>
             </Card>
-            <div className="content-wrapper">
-              <Button type="primary" icon={<PlusOutlined />} onClick={addUser}>
+            <div
+              className="content-wrapper"
+              style={{ padding: screens.xs ? 12 : 24 }}
+            >
+              <Button
+                type="primary"
+                icon={<PlusOutlined />}
+                onClick={addUser}
+                style={{ marginBottom: 16 }}
+              >
                 Add User
               </Button>
-              <Table columns={columns} dataSource={data} />;
+              <Table
+                columns={responsiveColumns}
+                dataSource={data}
+                scroll={{ x: 600 }}
+                size={screens.xs ? "small" : "middle"}
+                loading={loading}
+              />
             </div>
           </Content>
         </Layout>
       </Layout>
-      <ModalDelete visible={visible}
+      <ModalDelete
+        visible={visible}
         confirmLoading={confirmLoading}
         titleModal="Delete User"
         modalText="Are you sure you want to delete this user?"

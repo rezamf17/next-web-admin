@@ -11,6 +11,7 @@ import {
   Button,
   Row,
   Col,
+  DatePicker
 } from 'antd';
 import HeaderComponent from '@/components/HeaderComponent';
 import SiderComponent from '@/components/SiderComponent';
@@ -20,7 +21,7 @@ import {
   PartitionOutlined,
   PlusOutlined,
   DeleteOutlined,
-  EditOutlined,
+  FileOutlined,
   SearchOutlined,
   CheckOutlined,
   CloseOutlined
@@ -64,6 +65,20 @@ const App = () => {
     }
   }
 
+  const startChange = (date, dateString) => {
+    console.log(date, dateString);
+  };
+
+  const endChange = (date, dateString) => {
+    console.log(date, dateString);
+  };
+
+  const handleDetail = (record) => {
+    // console.log('detail', record);
+    dispatch(saveData(record));
+    router.push("/report-transaction/detail");
+  }
+
   const columns = [
     {
       title: "No",
@@ -71,54 +86,45 @@ const App = () => {
       key: "no",
     },
     {
-      title: "Nama Merchant",
-      dataIndex: "name",
-      key: "name",
+      title: "ID Log",
+      dataIndex: "id_log",
+      key: "id_log",
+    },
+    {
+      title: "Response Code",
+      dataIndex: "rc",
+      key: "rc",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Alamat",
-      dataIndex: "address",
-      key: "address",
+      title: "TID",
+      dataIndex: "tid",
+      key: "tid",
     },
     {
-      title: "Nomor HP",
-      dataIndex: "phone_number",
-      key: "phone_number",
+      title: "MID",
+      dataIndex: "mid",
+      key: "mid",
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: "Amount",
+      dataIndex: "amount",
+      key: "amount",
     },
     {
-      title: "Jenis Usaha",
-      dataIndex: "business_type",
-      key: "business_type",
+      title: "Stan",
+      dataIndex: "stan",
+      key: "stan",
     },
     {
-      title: "Nomor Rekening",
-      dataIndex: "account_number",
-      key: "account_number",
+      title: "RRN",
+      dataIndex: "rrn",
+      key: "rrn",
     },
     {
-      title: "Nama Bank",
-      dataIndex: "bank_name",
-      key: "bank_name",
-    },
-    {
-      title: "Status",
-      key: "status",
-      dataIndex: "status",
-      render: (_, { status }) => (
-        <>
-          {status === "A" ? (
-            <Tag color="volcano">INACTIVE</Tag>
-          ) : (
-            <Tag color="green">ACTIVE</Tag>
-          )}
-        </>
-      ),
+      title: "Card Number",
+      dataIndex: "card_number",
+      key: "card_number",
     },
     {
       title: "Action",
@@ -131,21 +137,12 @@ const App = () => {
               borderColor: "#34c759",
               color: "white",
             }}
-            icon={<EditOutlined />}
+            icon={<FileOutlined />}
             color="green-5"
-            onClick={() => editMerchant(record)}
+            onClick={() => handleDetail(record)}
           >
-            Edit Merchant
+            Detail
           </Button>
-          {record.status == "I" ? (
-            <Button type="primary" icon={<CloseOutlined />} danger onClick={() => deleteMerchant(record)}>
-              Inactive Merchant
-            </Button>
-          ) : (
-            <Button type="primary" icon={<CheckOutlined />} onClick={() => deleteMerchant(record)}>
-              Active Merchant
-            </Button>
-          )}
         </Space>
       ),
     },
@@ -154,26 +151,67 @@ const App = () => {
     {
       key: "1",
       no: "1",
-      name: "Toko ABC",
-      address: "Jl. Sudirman No. 123, Jakarta Selatan",
-      phone_number: "021-12345678",
-      business_type: "Ritel",
-      account_number: "1234567890",
-      email: "test@gmail.com",
-      bank_name: "BCA",
-      status: "I",
+      id_log: "443",
+      rc: "00",
+      tid: "TIDEDC01",
+      mid: "MIDEDC0123TEST ",
+      amount: "40000",
+      stan: "000154",
+      rrn: "000000000425",
+      card_number: "8888303713520011",
+      description: "INFO SALDO ON US TABUNGAN"
     },
-        {
+    {
       key: "2",
       no: "2",
-      name: "Restoran XYZ",
-      address: "Jl. Gatot Subroto No. 456, Jakarta Pusat",
-      phone_number: "021-12345678",
-      business_type: "Jasa",
-      account_number: "9876543210",
-      email: "test@gmail.com",
-      bank_name: "Mandiri",
-      status: "A",
+      id_log: "443",
+      rc: "00",
+      tid: "TIDEDC01",
+      mid: "MIDEDC0123TEST ",
+      amount: "40000",
+      stan: "000154",
+      rrn: "000000000425",
+      card_number: "8888303713520011",
+      description: "INFO SALDO ON US TABUNGAN"
+    },
+    {
+      key: "3",
+      no: "3",
+      id_log: "443",
+      rc: "00",
+      tid: "TIDEDC01",
+      mid: "MIDEDC0123TEST ",
+      amount: "40000",
+      stan: "000154",
+      rrn: "000000000425",
+      card_number: "8888303713520011",
+      description: "INFO SALDO ON US TABUNGAN"
+    },
+    {
+      key: "4",
+      no: "4",
+      id_log: "443",
+      rc: "00",
+      tid: "TIDEDC01",
+      mid: "MIDEDC0123TEST ",
+      amount: "40000",
+      stan: "000154",
+      rrn: "000000000425",
+      card_number: "8888303713520011",
+      description: "INFO SALDO ON US TABUNGAN"
+    },
+    {
+      key: "5",
+      no: "5",
+      id_log: "443",
+      rc: "00",
+      tid: "TIDEDC01",
+      mid: "MIDEDC0123TEST ",
+      amount: "40000",
+      stan: "000154",
+      rrn: "000000000425",
+      card_number: "8888303713520011",
+      description: "INFO SALDO ON US TABUNGAN"
     },
   ];
 
@@ -183,14 +221,17 @@ const App = () => {
       <Layout>
         <SiderComponent collapsed={collapsed} />
         <Layout style={{ marginLeft: collapsed ? 80 : 130 }}>
-          <BreadcrumbComponent icon={<PartitionOutlined />} menu="Maintenance Partner" submenu="Merchant" />
+          <BreadcrumbComponent icon={<PartitionOutlined />} menu="Report and Summary" submenu="Report Transaction" />
           <Typography.Title level={2} style={{ margin: 0 }}>
-            Merchant
+            Report Transaction
           </Typography.Title>
           <Content className="layout-content">
             <Card>
               <Form.Item label="Search">
                 <Input placeholder="Search data merchant" />
+              </Form.Item>
+              <Form.Item label="Periode">
+                <DatePicker onChange={startChange} /> - <DatePicker onChange={endChange} />
               </Form.Item>
               <Row justify="space-between">
                 <Col>
@@ -204,9 +245,6 @@ const App = () => {
               </Row>
             </Card>
             <div className="content-wrapper">
-              <Button type="primary" icon={<PlusOutlined />} onClick={addMerchant}>
-                Add Merchant
-              </Button>
               <Table columns={columns} dataSource={data} />
             </div>
           </Content>

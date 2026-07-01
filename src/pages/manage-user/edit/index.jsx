@@ -12,7 +12,7 @@ const { Content } = Layout;
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
   const session = useSelector((state) => state.user);
-    console.log('edit seession',session);
+    // console.log('edit seession',session);
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <HeaderComponent />

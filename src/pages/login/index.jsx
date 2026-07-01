@@ -1,7 +1,6 @@
 import LockOutlined from "@ant-design/icons/LockOutlined";
 import UserOutlined from "@ant-design/icons/UserOutlined";
 import { Button, Form, Input, Flex, Card, Row, Col, message } from "antd";
-import { Button, Form, Input, Flex, Card, Row, Col, message } from "antd";
 import Image from 'next/image'
 import Logo from "@/styles/image/next-js-seeklogo.svg";
 import Link from "next/link";

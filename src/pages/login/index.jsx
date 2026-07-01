@@ -1,16 +1,34 @@
 import LockOutlined from "@ant-design/icons/LockOutlined";
 import UserOutlined from "@ant-design/icons/UserOutlined";
-import { Button, Checkbox, Form, Input, Flex, Card, Row, Col } from "antd";
+import { Button, Form, Input, Flex, Card, Row, Col, message } from "antd";
 import Image from 'next/image'
 import Logo from "@/styles/image/next-js-seeklogo.svg";
 import Link from "next/link";
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+import api from '@/lib/api';
 
 export default function LoginPage() {
   const router = useRouter();
-  const handleLogin = (values) => {
-    console.log('Success:', values);
-    router.push('/dashboard'); // Pindah ke halaman /dashboard
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async (values) => {
+    setLoading(true);
+    try {
+      const { data } = await api.post('/auth/signin', {
+        username: values.username,
+        password: values.password,
+      });
+
+      localStorage.setItem('token', data.token);
+      message.success('Login berhasil');
+      router.push('/dashboard');
+    } catch (error) {
+      const msg = error.response?.data?.error || 'Terjadi kesalahan, coba lagi';
+      message.error(msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -56,7 +74,7 @@ export default function LoginPage() {
             </Form.Item>
 
             <Form.Item>
-              <Button block type="primary" htmlType="submit">
+              <Button block type="primary" htmlType="submit" loading={loading}>
                 Log in
               </Button>
             </Form.Item>

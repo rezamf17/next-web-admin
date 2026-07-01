@@ -20,7 +20,9 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const isLoginRequest = error.config?.url?.includes('/auth/signin');
+
+    if (error.response?.status === 401 && !isLoginRequest) {
       // Token expired atau tidak valid, redirect ke login
       localStorage.removeItem('token');
       if (typeof window !== 'undefined') {

@@ -3,7 +3,7 @@
 import pool from "../../../lib/db";
 import bcrypt from "bcryptjs";
 
-export async function createUser({ name, username, email, password, status, created, createdBy }) {
+export async function createUser({ name, username, email, password, id_role, status, created, createdBy }) {
   try {
     // Hash password sebelum menyimpan ke database
     const saltRounds = 10;
@@ -11,11 +11,11 @@ export async function createUser({ name, username, email, password, status, crea
 
     // Query untuk menambahkan user baru
     const query = `
-      INSERT INTO t_users (name, username, email, password, status, created, createdBy)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      INSERT INTO t_users (name, username, email, password, id_role, status, created, createdBy)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *
     `;
-    const values = [name, username, email, hashedPassword, status, created, createdBy];
+    const values = [name, username, email, hashedPassword, id_role, status, created, createdBy];
 
     // Eksekusi query dan dapatkan hasilnya
     const result = await pool.query(query, values);

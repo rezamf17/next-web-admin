@@ -6,7 +6,7 @@ import moment from 'moment'
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { name, username, email, password, status, createdBy } = req.body;
+    const { name, username, email, password, id_role, status } = req.body;
 
     // Validasi data sederhana
     if (!name || !email || !password) {
@@ -19,7 +19,8 @@ export default async function handler(req, res) {
         await isExistEmail(email);
         await isExistUsername(username);
         const created = moment().format('YYYY-MM-DD HH:mm:ss')
-        await createUser({ name, username, email, password, status, created, createdBy });
+        const createdBy = req.user.username;
+        await createUser({ name, username, email, password, id_role, status, created, createdBy });
           res.status(201).json({
             code : "00",
             message : "Success created user"

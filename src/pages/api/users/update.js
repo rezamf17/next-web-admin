@@ -3,7 +3,7 @@ import { verifyToken } from '../middleware/auth';
 
 export default async function handler(req, res) {
   if (req.method === "PUT") {
-    const { id, name, username, email, password, id_role, status, updatedBy } = req.body;
+    const { id, name, username, email, password, id_role, status } = req.body;
 
     if (!id) {
       return res.status(400).json({ error: "User ID is required" });
@@ -15,6 +15,7 @@ export default async function handler(req, res) {
 
     verifyToken(req, res, async () => {
       try {
+        const updatedBy = req.user.username;
         await updateUser({ id, name, username, email, password, id_role, status, updatedBy });
         res.status(200).json({
           code: "00",

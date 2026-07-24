@@ -16,7 +16,7 @@ const App = () => {
       <HeaderComponent />
       <Layout>
         <SiderComponent collapsed={collapsed} />
-        <Layout style={{ marginLeft: collapsed ? 80 : 130 }}>
+        <Layout style={{ marginLeft: collapsed ? 80 : 300 }}>
           <BreadcrumbComponent
             icon={<UserSwitchOutlined />}
             menu="Maintenance User"
